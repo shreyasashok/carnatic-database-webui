@@ -6,7 +6,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script>
 function testFunction() {
-	$.getJSON("http://gsx2json.com/api?id=1LUE00y5QwLVJAgEm2azkiyp75Bc38NVBwkPbN8kEN0U&columns=false", function(data) {
+	$.getJSON("https://cors.io/?http://gsx2json.com/api?id=1LUE00y5QwLVJAgEm2azkiyp75Bc38NVBwkPbN8kEN0U&columns=false", function(data) {
 		document.getElementById("test-output").innerHTML = JSON.stringify(data);
 		for (let row of data.rows) {
 			console.log(JSON.stringify(row));
