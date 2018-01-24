@@ -1,1 +1,71 @@
-<h1>Hello World</h1>
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script>
+function testFunction() {
+	$.getJSON("http://gsx2json.com/api?id=1LUE00y5QwLVJAgEm2azkiyp75Bc38NVBwkPbN8kEN0U&columns=false", function(data) {
+		document.getElementById("test-output").innerHTML = JSON.stringify(data);
+		for (let row of data.rows) {
+			console.log(JSON.stringify(row));
+			var row_html = "<tr>";
+			row_html += "<td>"+row.albumid+"</td><td>"+row.mainartist+"</td></tr>";
+			document.getElementById("music_table").innerHTML += row_html;
+		}
+	});
+}
+//	window.onload=testFunction();
+		</script>
+		<script src="controller.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	<body ng-app="myApp" ng-controller="appController"> 
+		<nav class="navbar navbar-expand-md navbar-light bg-light">
+			<a class="navbar-brand" href="#">Carnatic Archive</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"  ng-class="{ active: tab === 0 }" >
+						<a class="nav-link" href ng-click="tab = 0">Track List</a>
+					</li>
+					<li class="nav-item" ng-class="{ active: tab === 1 }">
+						<a class="nav-link" href ng-click="tab = 1">Albums</a>
+					</li>
+					<li class="nav-item" ng-class="{ active: tab === 2 }">
+						<a class="nav-link" href ng-click="tab = 2">Playlist</a>
+					</li>
+				</ul>
+			</div>
+		</nav>	
+		
+
+		<div class="container">
+			<!--<p>Name : <input type="text" ng-model="name" /></p>
+			<h1>Hello {{name}}</h1>-->
+			<button type="button" onclick="testFunction()">Load data</button>
+			<p id="test-output"></p>
+			<p>{{testmodel}} klajsdflkajsdlf</p>
+			<table class="table table-bordered table-hover">
+				<thead class="bg-primary text-light">
+					<tr>
+						<th>Album ID</td>
+						<th>Main Artist</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in data">
+						<td>{{row.albumid}}</td>
+						<td>{{row.mainartist}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div> 
+
+	</body>
+</html>
