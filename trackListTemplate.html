@@ -1,0 +1,27 @@
+<table class="table table-bordered table-hover">
+	<thead class="bg-primary text-light">
+		<tr>
+			<th>Album ID
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search albums"/></div>
+			</th>
+			<th>Main Artist
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search main artists"/></div>
+			</th>
+			<th>Violinist
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search violinists"/></div>
+			</th>
+			<th>Mridangist
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search mridangists"/></div>
+			</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="row in data">
+			<td>{{row.albumid}}</td>
+			<td>{{row.mainartist}}</td>
+			<td>{{row.violinist}}</td>
+			<td>{{row.mridangist}}</td>
+		</tr>
+	</tbody>
+</table>
