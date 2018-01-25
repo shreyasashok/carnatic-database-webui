@@ -1,23 +1,43 @@
 <table class="table table-bordered table-hover">
 	<thead class="bg-primary text-light">
 		<tr>
-			<th>Album ID
-				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search albums"/></div>
+			<th>
+				<a href class="text-light" ng-click="krithiSortType='albumid'; krithiSortReverse = !krithiSortReverse">
+					Album ID
+					<i class="fa fa-caret-up" ng-show="krithiSortType === 'albumid' && krithiSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="krithiSortType === 'albumid' && !krithiSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search albums" ng-model="krithiSearch.albumid" /></div>
 			</th>
-			<th>Main Artist
-				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search main artists"/></div>
+			<th>
+				<a href class="text-light" ng-click="krithiSortType='mainartist'; krithiSortReverse = !krithiSortReverse">
+					Main Artist
+					<i class="fa fa-caret-up" ng-show="krithiSortType === 'mainartist' && krithiSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="krithiSortType === 'mainartist' && !krithiSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search main artists" ng-model="krithiSearch.mainartist" /></div>
 			</th>
-			<th>Violinist
-				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search violinists"/></div>
+			<th>
+				<a href class="text-light" ng-click="krithiSortType='violinist'; krithiSortReverse = !krithiSortReverse">
+					Violinist
+					<i class="fa fa-caret-up" ng-show="krithiSortType === 'violinist' && krithiSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="krithiSortType === 'violinist' && !krithiSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search violinists" ng-model="krithiSearch.violinist" /></div>
 			</th>
-			<th>Mridangist
-				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search mridangists"/></div>
+			<th>
+				<a href class="text-light" ng-click="krithiSortType='mridangist'; krithiSortReverse = !krithiSortReverse">
+					Mridangist
+					<i class="fa fa-caret-up" ng-show="krithiSortType === 'mridangist' && krithiSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="krithiSortType === 'mridangist' && !krithiSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search mridangists" ng-model="krithiSearch.mridangist" /></div>
 			</th>
 
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="row in data">
+		<tr ng-repeat="row in data | orderBy:krithiSortType:krithiSortReverse | filter:krithiSearch">
 			<td>{{row.albumid}}</td>
 			<td>{{row.mainartist}}</td>
 			<td>{{row.violinist}}</td>

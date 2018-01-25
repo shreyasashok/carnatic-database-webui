@@ -17,6 +17,8 @@ angular.module('myApp', [])
 	});
 	
 	$scope.tab = 0;
+	$scope.krithiSortType = "albumid";
+	$scope.krithiSortReverse = false;
 	
 })
 .directive("trackList", function() {
