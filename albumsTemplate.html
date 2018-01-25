@@ -1,2 +1,49 @@
 <h1>Albums</h1>
-<p>This is where the albums list would go</p>
+<table class="table table-bordered table-hover">
+	<thead class="bg-primary text-light">
+		<tr>
+			<th>
+				<a href class="text-light" ng-click="albumSortType='albumid'; albumSortReverse = !albumSortReverse">
+					Album ID
+					<i class="fa fa-caret-up" ng-show="albumSortType === 'albumid' && albumSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="albumSortType === 'albumid' && !albumSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search albums" ng-model="albumSearch.albumid" /></div>
+			</th>
+			<th>
+				<a href class="text-light" ng-click="albumSortType='mainartist'; albumSortReverse = !albumSortReverse">
+					Main Artist
+					<i class="fa fa-caret-up" ng-show="albumSortType === 'mainartist' && albumSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="albumSortType === 'mainartist' && !albumSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search main artists" ng-model="albumSearch.mainartist" /></div>
+			</th>
+			<th>
+				<a href class="text-light" ng-click="albumSortType='violinist'; albumSortReverse = !albumSortReverse">
+					Violinist
+					<i class="fa fa-caret-up" ng-show="albumSortType === 'violinist' && albumSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="albumSortType === 'violinist' && !albumSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search violinists" ng-model="albumSearch.violinist" /></div>
+			</th>
+			<th>
+				<a href class="text-light" ng-click="albumSortType='mridangist'; albumSortReverse = !albumSortReverse">
+					Mridangist
+					<i class="fa fa-caret-up" ng-show="albumSortType === 'mridangist' && albumSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="albumSortType === 'mridangist' && !albumSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search mridangists" ng-model="albumSearch.mridangist" /></div>
+			</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="row in albumData | orderBy:albumSortType:albumSortReverse | filter:albumSearch" ng-click="accessAlbum(row.albumid)">
+			<td ng-click="$log.log('cell clicked')">{{row.albumid}}</td>
+			<td>{{row.mainartist}}</td>
+			<td>{{row.violinist}}</td>
+			<td>{{row.mridangist}}</td>
+		</tr>
+	</tbody>
+</table>
+
