@@ -1,0 +1,28 @@
+.album_table_hover {
+	cursor: pointer;
+}
+.td-multi-line {
+	white-space: pre-line;
+}
+.td-narrow {
+	max-width: 115px;
+}
+.td-super-narrow {
+	max-width: 95px;
+}
+.td-controls {
+	min-width: 105px;
+}
+.td-select {
+	max-width: 50px;
+	padding-right: 0px !important;
+}
+th.td-select {
+	vertical-align: middle !important;
+}
+.new-label {
+	font-size: smaller;
+	vertical-align: super;
+	color: #e82720;
+	padding-left: 5px;
+}

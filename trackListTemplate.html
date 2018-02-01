@@ -1,37 +1,248 @@
-<table class="table table-bordered table-hover">
-	<thead class="bg-primary text-light">
-		<tr>
-			<th>
-				<a href class="text-light" ng-click="krithiSortType='songtitle'; krithiSortReverse = !krithiSortReverse">
-					Song Title
-					<i class="fa fa-caret-up" ng-show="krithiSortType === 'songtitle' && krithiSortReverse"></i>
-					<i class="fa fa-caret-down" ng-show="krithiSortType === 'songtitle' && !krithiSortReverse"></i>
-				</a>
-				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search songs" ng-model="krithiSearch.songtitle" /></div>
-			</th>
-			<th>
-				<a href class="text-light" ng-click="krithiSortType='albumid'; krithiSortReverse = !krithiSortReverse">
-					Album ID
-					<i class="fa fa-caret-up" ng-show="krithiSortType === 'albumid' && krithiSortReverse"></i>
-					<i class="fa fa-caret-down" ng-show="krithiSortType === 'albumid' && !krithiSortReverse"></i>
-				</a>
-				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search album IDs" ng-model="krithiSearch.albumid" /></div>
-			</th>
-			<th>
-				<a href class="text-light" ng-click="krithiSortType='tracknumber'; krithiSortReverse = !krithiSortReverse">
-					Track Number
-					<i class="fa fa-caret-up" ng-show="krithiSortType === 'tracknumber' && krithiSortReverse"></i>
-					<i class="fa fa-caret-down" ng-show="krithiSortType === 'tracknumber' && !krithiSortReverse"></i>
-				</a>
-				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search track number" ng-model="krithiSearch.tracknumber" /></div>
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="row in krithiData | orderBy:krithiSortType:krithiSortReverse | filter:krithiSearch">
-			<td>{{row.songtitle}}</td>
-			<td>{{row.albumid}}</td>
-			<td>{{row.tracknumber}}</td>
-		</tr>
-	</tbody>
-</table>
+<h2 class="mb-3">Tracks</h2>
+<!--<button type="button" class="btn btn-outline-primary btn-sm"><i class="fa fa-play-circle fa-lg" aria-hidden="true"></i></button>-->
+
+<p class="mb-1">Show/hide columns: </p>
+
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.albumid" ng-change="showHideKrithiColumn('albumid', krithiColumnEnable.albumid, krithiSearch.albumid)">
+	<label class="form-check-label">Album ID</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.tracknumber" ng-change="showHideKrithiColumn('tracknumber', krithiColumnEnable.tracknumber, krithiSearch.tracknumber)">
+	<label class="form-check-label">Track #</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.type" ng-change="showHideKrithiColumn('type', krithiColumnEnable.type, krithiSearch.type)">
+	<label class="form-check-label">Type</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.ragam" ng-change="showHideKrithiColumn('ragam', krithiColumnEnable.ragam, krithiSearch.ragam)">
+	<label class="form-check-label">Ragam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.talam" ng-change="showHideKrithiColumn('talam', krithiColumnEnable.talam, krithiSearch.talam)">
+	<label class="form-check-label">Talam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.composer" ng-change="showHideKrithiColumn('composer', krithiColumnEnable.composer, krithiSearch.composer)">
+	<label class="form-check-label">Composer</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.comments" ng-change="showHideKrithiColumn('comments', krithiColumnEnable.comments, krithiSearch.comments)">
+	<label class="form-check-label">Comments</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.mainartist" ng-change="showHideKrithiColumn('mainartist', krithiColumnEnable.mainartist, krithiSearch.mainartist)">
+	<label class="form-check-label">Main Artist</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.violin" ng-change="showHideKrithiColumn('violin', krithiColumnEnable.violin, krithiSearch.violin)">
+	<label class="form-check-label">Violin</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.mridangam" ng-change="showHideKrithiColumn('mridangam', krithiColumnEnable.mridangam, krithiSearch.mridangam)">
+	<label class="form-check-label">Mridangam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.upapakkavadhyam" ng-change="showHideKrithiColumn('upapakkavadhyam', krithiColumnEnable.upapakkavadhyam, krithiSearch.upapakkavadhyam)">
+	<label class="form-check-label">Upapakkavadhyam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.concertsabha" ng-change="showHideKrithiColumn('concertsabha', krithiColumnEnable.concertsabha, krithiSearch.concertsabha)">
+	<label class="form-check-label">Sabha</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.sabhalocation" ng-change="showHideKrithiColumn('sabhalocation', krithiColumnEnable.sabhalocation, krithiSearch.sabhalocation)">
+	<label class="form-check-label">Location</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.date" ng-change="showHideKrithiColumn('date', krithiColumnEnable.date, krithiSearch.date)">
+	<label class="form-check-label">Date</label>
+</div>	
+
+<div class="table-responsive">
+	<table class="table table-bordered table-hover table-sm">
+		<thead class="bg-primary text-light">
+			<tr>
+				<th class="td-controls bg-secondary">
+				</th>
+				<th class="td-select bg-secondary">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" ng-model="krithi_select_all">
+					</div>
+				</th>
+				<th ng-show="krithiColumnEnable.albumid" class="td-narrow">
+					<a href class="text-light" ng-click="changeKrithiSort('albumid')">
+						Album ID
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'albumid' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'albumid' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search album IDs" ng-model="krithiSearch.albumid" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.tracknumber" class="td-super-narrow">
+					<a href class="text-light" ng-click="changeKrithiSort('tracknumber')">
+						Track #
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'tracknumber' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'tracknumber' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search track number" ng-model="krithiSearch.tracknumber" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.songtitle">
+					<a href class="text-light" ng-click="changeKrithiSort('songtitle')">
+						Title
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'songtitle' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'songtitle' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search songs" ng-model="krithiSearch.songtitle" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.type" class="td-narrow">
+					<a href class="text-light" ng-click="changeKrithiSort('type')">
+						Type
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'type' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'type' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search type" ng-model="krithiSearch.type" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.ragam">
+					<a href class="text-light" ng-click="changeKrithiSort('ragam')">
+						Ragam
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'ragam' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'ragam' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search ragam" ng-model="krithiSearch.ragam" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.talam">
+					<a href class="text-light" ng-click="changeKrithiSort('talam')">
+						Talam
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'talam' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'talam' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search talam" ng-model="krithiSearch.talam" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.composer">
+					<a href class="text-light" ng-click="krithiSortType='composer'; krithiSortReverse = !krithiSortReverse">
+						Composer
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'composer' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'composer' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search composer" ng-model="krithiSearch.composer" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.comments">
+					<a href class="text-light" ng-click="krithiSortType='comments'; krithiSortReverse = !krithiSortReverse">
+						Comments
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'comments' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'comments' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search comments" ng-model="krithiSearch.comments" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.mainartist">
+					<a href class="text-light" ng-click="krithiSortType='mainartist'; krithiSortReverse = !krithiSortReverse">
+						Main Artist
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'mainartist' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'mainartist' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search main artists" ng-model="krithiSearch.mainartist" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.violin">
+					<a href class="text-light" ng-click="krithiSortType='violin'; krithiSortReverse = !krithiSortReverse">
+						Violin
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'violin' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'violin' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search violin" ng-model="krithiSearch.violin" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.mridangam">
+					<a href class="text-light" ng-click="krithiSortType='mridangam'; krithiSortReverse = !krithiSortReverse">
+						Mridangam
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'mridangam' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'mridangam' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search mridangam" ng-model="krithiSearch.mridangam" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.upapakkavadhyam">
+					<a href class="text-light" ng-click="krithiSortType='upapakkavadhyam'; krithiSortReverse = !krithiSortReverse">
+						Upapakkavadhyam
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'upapakkavadhyam' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'upapakkavadhyam' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search upapakkavadhyam" ng-model="krithiSearch.upapakkavadhyam" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.concertsabha">
+					<a href class="text-light" ng-click="krithiSortType='concertsabha'; krithiSortReverse = !krithiSortReverse">
+						Sabha
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'concertsabha' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'concertsabha' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search sabhas" ng-model="krithiSearch.concertsabha" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.sabhalocation" ng-show="krithiColumnEnable.sabhalocation">
+					<a href class="text-light" ng-click="krithiSortType='sabhalocation'; krithiSortReverse = !krithiSortReverse">
+						Location
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'sabhalocation' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'sabhalocation' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search location" ng-model="krithiSearch.sabhalocation" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.date">
+					<a href class="text-light" ng-click="krithiSortType='date'; krithiSortReverse = !krithiSortReverse">
+						Date
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'date' && krithiSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'date' && !krithiSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search date" ng-model="krithiSearch.date" /></div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="row in krithiData | orderBy:krithiSortType:krithiSortReverse | filter:krithiSearch">
+				<td class="td-controls">
+					<a class="btn btn-primary btn-sm text-light" ng-href="https://youtube.com/watch?v={{row.youtubevideoid}}" target="_blank"> <i class="fa fa-play" aria-hidden="true"></i> </a>
+					<button type="button" class="btn btn-info btn-sm text-light" ng-click="krithiInfoButtonClick(row)"> <i class="fa fa-info" aria-hidden="true"></i> </button>
+					<button type="button" class="btn btn-danger btn-sm text-light"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
+				</td>
+				<td class="td-select">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" ng-model="row.selected">
+					</div>
+				</td>
+				<td ng-show="krithiColumnEnable.albumid" class="td-narrow">{{row.albumid}}</td>
+				<td ng-show="krithiColumnEnable.tracknumber" class="td-super-narrow">{{row.tracknumber}}</td>
+				<td ng-show="krithiColumnEnable.songtitle">{{row.songtitle}}<span class="new-label" ng-show="row.newtrack">New!</span></td>
+				<td ng-show="krithiColumnEnable.type" class="td-narrow">{{row.type}}</td>
+				<td ng-show="krithiColumnEnable.ragam">{{row.ragam}}</td>
+				<td ng-show="krithiColumnEnable.talam">{{row.talam}}</td>
+				<td ng-show="krithiColumnEnable.composer">{{row.composer}}</td>
+				<td ng-show="krithiColumnEnable.comments">{{row.comments}}</td>
+				<td ng-show="krithiColumnEnable.mainartist">{{row.mainartist}}</td>
+				<td ng-show="krithiColumnEnable.violin">{{row.violin}}</td>
+				<td ng-show="krithiColumnEnable.mridangam">{{row.mridangam}}</td>
+				<td ng-show="krithiColumnEnable.upapakkavadhyam" class="td-multi-line">{{row.upapakkavadhyam}}</td>
+				<td ng-show="krithiColumnEnable.concertsabha">{{row.concertsabha}}</td>
+				<td ng-show="krithiColumnEnable.sabhalocation">{{row.sabhalocation}}</td>
+				<td ng-show="krithiColumnEnable.date">{{row.date}}</td>
+
+			
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="krithiInfoModal" tabindex="-1" role="dialog" aria-labelledby="krithiInfoModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Track Info</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				{{krithiModalContent}}		
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
