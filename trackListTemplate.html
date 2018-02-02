@@ -68,7 +68,7 @@
 				</th>
 				<th class="td-select bg-secondary">
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox" ng-model="krithi_select_all">
+						<input class="form-check-input" type="checkbox" ng-model="krithi_select_all" ng-change="krithiSelectAll(krithi_select_all)">
 					</div>
 				</th>
 				<th ng-show="krithiColumnEnable.albumid" class="td-narrow">
@@ -194,7 +194,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="row in krithiData | orderBy:krithiSortType:krithiSortReverse | filter:krithiSearch">
+			<tr ng-repeat="row in filteredKrithiData = (krithiData | orderBy:krithiSortType:krithiSortReverse | filter:krithiSearch)">
 				<td class="td-controls">
 					<a class="btn btn-primary btn-sm text-light" ng-href="https://youtube.com/watch?v={{row.youtubevideoid}}" target="_blank"> <i class="fa fa-play" aria-hidden="true"></i> </a>
 					<button type="button" class="btn btn-info btn-sm text-light" ng-click="krithiInfoButtonClick(row)"> <i class="fa fa-info" aria-hidden="true"></i> </button>

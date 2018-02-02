@@ -5,15 +5,11 @@ angular.module('myApp', [])
 	var spreadsheet_key = "1MHBp2GX_h5B9mC6GPcIt7XH2-CPz4W8FK0f2nBi9nZ4"
 	$.getJSON("https://spreadsheets.google.com/feeds/list/"+spreadsheet_key+"/2/public/values?alt=json", function(data) {
 		var rawData = data.feed.entry;
-		$log.log(rawData);
-
-		$log.log(rawData[0]);
 		$scope.albumData = [];
 		for (var rawIndex in rawData) {
 			var rawRow = rawData[rawIndex];
 			var processedRow = {albumid:rawRow.gsx$albumid.$t, mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t,
 						concertsabha:rawRow.gsx$concertsabha.$t, sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, uploaddate:rawRow.gsx$uploaddate.$t};
-			$log.log(rawRow.gsx$upapakkavadhyam.$t)
 			$scope.$apply( function() {
 				$scope.albumData.push(processedRow);
 			});
@@ -21,25 +17,19 @@ angular.module('myApp', [])
 	});
 	$.getJSON("https://spreadsheets.google.com/feeds/list/"+spreadsheet_key+"/1/public/values?alt=json", function(data) {
 		var rawData = data.feed.entry;
-		$log.log(rawData);
-
-		$log.log(rawData[0]);
 		$scope.krithiData = [];
 		for (var rawIndex in rawData) {
 			var rawRow = rawData[rawIndex];
 			var processedRow = {songtitle:rawRow.gsx$songtitle.$t, albumid:rawRow.gsx$albumid.$t, tracknumber:rawRow.gsx$tracknumber.$t, type:rawRow.gsx$type.$t, ragam:rawRow.gsx$ragam.$t, talam:rawRow.gsx$talam.$t, 
 						composer:rawRow.gsx$composer.$t, alapana:rawRow.gsx$a.$t, niraval:rawRow.gsx$n.$t, swaram:rawRow.gsx$s.$t, comments:rawRow.gsx$comments.$t, youtubevideoid:rawRow.gsx$youtubevideoid.$t, 
 						mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t, concertsabha:rawRow.gsx$concertsabha.$t,
-						sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, uploaddate:rawRow.gsx$uploaddate.$t, newtrack: false};
+						sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, uploaddate:rawRow.gsx$uploaddate.$t, newtrack: false, selected: false};
 			var uploadDate = new Date(processedRow.uploaddate);
 			var today = new Date();
 			var delta = today-uploadDate;
 			if (delta < week) {
 				processedRow.newtrack = true;
 			}
-			$log.log(delta);
-			$log.log(uploadDate.toUTCString());
-			$log.log(processedRow.newtrack);
 			$scope.$apply( function() {
 				$scope.krithiData.push(processedRow);
 			});
@@ -56,7 +46,6 @@ angular.module('myApp', [])
 	$scope.albumSortReverse = false;
 	$scope.krithiColumnEnable = {albumid: true, tracknumber: true, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false, 
 					concertsabha: false, sabhalocation: false, date: false};
-        $log.log($scope.krithiColumnEnable.sabhalocation);
 	$scope.albumColumnEnable = {};
 
 
@@ -101,6 +90,26 @@ angular.module('myApp', [])
 			$scope.krithiSortReverse = false;
 		}
 	};
+	$scope.krithiSelectAll = function($select) {
+		for (row in $scope.filteredKrithiData) {
+			$scope.filteredKrithiData[row].selected = $select;
+		}
+	};
+	$scope.$watch("filteredKrithiData", function(new_value, old_value) {
+		var all_true = true;
+		for (row in new_value) {
+			if (new_value[row].selected == false) {
+				all_true = false;
+			}
+		}
+		$scope.krithi_select_all = all_true;
+		
+		for (row in $scope.krithiData) {
+			if ($scope.filteredKrithiData.indexOf($scope.krithiData[row]) == -1) {
+				$scope.krithiData[row].selected = false;
+			}
+		}
+	}, true);
 
 })
 .directive("trackList", function() {
