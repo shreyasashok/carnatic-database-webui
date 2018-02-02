@@ -1,58 +1,153 @@
 <h2>Albums</h2>
+
+<p class="mb-1">Show/hide columns: </p>
+
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="albumColumnEnable.mainartist" ng-change="showHideAlbumColumn('mainartist', albumColumnEnable.mainartist)">
+	<label class="form-check-label">Main Artist</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="albumColumnEnable.violin" ng-change="showHideAlbumColumn('violin', albumColumnEnable.violin)">
+	<label class="form-check-label">Violin</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="albumColumnEnable.mridangam" ng-change="showHideAlbumColumn('mridangam', albumColumnEnable.mridangam)">
+	<label class="form-check-label">Mridangam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="albumColumnEnable.upapakkavadhyam" ng-change="showHideAlbumColumn('upapakkavadhyam', albumColumnEnable.upapakkavadhyam)">
+	<label class="form-check-label">Upapakkavadhyam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="albumColumnEnable.concertsabha" ng-change="showHideAlbumColumn('concertsabha', albumColumnEnable.concertsabha)">
+	<label class="form-check-label">Sabha</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="albumColumnEnable.sabhalocation" ng-change="showHideAlbumColumn('sabhalocation', albumColumnEnable.sabhalocation)">
+	<label class="form-check-label">Location</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="albumColumnEnable.date" ng-change="showHideAlbumColumn('date', albumColumnEnable.date)">
+	<label class="form-check-label">Date</label>
+</div>	
+
 <table class="table table-bordered table-hover table-sm">
 	<thead class="bg-success text-light">
 		<tr>
-			<th>
-				<a href class="text-light" ng-click="albumSortType='albumid'; albumSortReverse = !albumSortReverse">
+			<th class="td-album-controls bg-secondary">
+			</th>
+			<th ng-show="albumColumnEnable.albumid" class="td-narrow">
+				<a href class="text-light" ng-click="changeAlbumSort('albumid')">
 					Album ID
 					<i class="fa fa-caret-up" ng-show="albumSortType === 'albumid' && albumSortReverse"></i>
 					<i class="fa fa-caret-down" ng-show="albumSortType === 'albumid' && !albumSortReverse"></i>
 				</a>
 				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search albums" ng-model="albumSearch.albumid" /></div>
 			</th>
-			<th>
-				<a href class="text-light" ng-click="albumSortType='mainartist'; albumSortReverse = !albumSortReverse">
+			<th ng-show="albumColumnEnable.mainartist">
+				<a href class="text-light" ng-click="changeAlbumSort('mainartist')">
 					Main Artist
 					<i class="fa fa-caret-up" ng-show="albumSortType === 'mainartist' && albumSortReverse"></i>
 					<i class="fa fa-caret-down" ng-show="albumSortType === 'mainartist' && !albumSortReverse"></i>
 				</a>
 				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search main artists" ng-model="albumSearch.mainartist" /></div>
 			</th>
-			<th>
-				<a href class="text-light" ng-click="albumSortType='violin'; albumSortReverse = !albumSortReverse">
+			<th ng-show="albumColumnEnable.violin">
+				<a href class="text-light" ng-click="changeAlbumSort('violin')">
 					Violin
 					<i class="fa fa-caret-up" ng-show="albumSortType === 'violin' && albumSortReverse"></i>
 					<i class="fa fa-caret-down" ng-show="albumSortType === 'violin' && !albumSortReverse"></i>
 				</a>
 				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search violinists" ng-model="albumSearch.violin" /></div>
 			</th>
-			<th>
-				<a href class="text-light" ng-click="albumSortType='mridangam'; albumSortReverse = !albumSortReverse">
+			<th ng-show="albumColumnEnable.mridangam">
+				<a href class="text-light" ng-click="changeAlbumSort('mridangam')">
 					Mridangam
 					<i class="fa fa-caret-up" ng-show="albumSortType === 'mridangam' && albumSortReverse"></i>
 					<i class="fa fa-caret-down" ng-show="albumSortType === 'mridangam' && !albumSortReverse"></i>
 				</a>
 				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search mridangists" ng-model="albumSearch.mridangam" /></div>
 			</th>
-			<th>
-				<a href class="text-light" ng-click="albumSortType='upapakkavadhyam'; albumSortReverse = !albumSortReverse">
+			<th ng-show="albumColumnEnable.upapakkavadhyam">
+				<a href class="text-light" ng-click="changeAlbumSort('upapakkavadhyam')">
 					Upapakkavadhyam
 					<i class="fa fa-caret-up" ng-show="albumSortType === 'upapakkavadhyam' && albumSortReverse"></i>
 					<i class="fa fa-caret-down" ng-show="albumSortType === 'upapakkavadhyam' && !albumSortReverse"></i>
 				</a>
 				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search upapakkavadhyam" ng-model="albumSearch.upapakkavadhyam" /></div>
 			</th>
-
+			<th ng-show="albumColumnEnable.concertsabha">
+				<a href class="text-light" ng-click="changeAlbumSort('concertsabha')">
+					Sabha
+					<i class="fa fa-caret-up" ng-show="albumSortType === 'concertsabha' && albumSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="albumSortType === 'concertsabha' && !albumSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search sabhas" ng-model="albumSearch.concertsabha" /></div>
+			</th>
+			<th ng-show="albumColumnEnable.sabhalocation">
+				<a href class="text-light" ng-click="changeAlbumSort('sabhalocation')">
+					Location
+					<i class="fa fa-caret-up" ng-show="albumSortType === 'sabhalocation' && albumSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="albumSortType === 'sabhalocation' && !albumSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search location" ng-model="albumSearch.sabhalocation" /></div>
+			</th>
+			<th ng-show="albumColumnEnable.date">
+				<a href class="text-light" ng-click="changeAlbumSort('date')">
+					Date
+					<i class="fa fa-caret-up" ng-show="albumSortType === 'date' && albumSortReverse"></i>
+					<i class="fa fa-caret-down" ng-show="albumSortType === 'date' && !albumSortReverse"></i>
+				</a>
+				<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search date" ng-model="albumSearch.date" /></div>
+			</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="row in albumData | orderBy:albumSortType:albumSortReverse | filter:albumSearch" ng-click="accessAlbum(row.albumid)" class="album_table_hover">
-			<td ng-click="$log.log('cell clicked')">{{row.albumid}}</td>
-			<td>{{row.mainartist}}</td>
-			<td>{{row.violin}}</td>
-			<td>{{row.mridangam}}</td>
-			<td class="td-multi-line">{{row.upapakkavadhyam}}</td>
+		<tr ng-repeat="row in albumData | orderBy:albumSortType:albumSortReverse | filter:albumSearch">
+			<td class="td-album-controls">
+				<button type="button" class="btn btn-primary btn-sm text-light" ng-click="accessAlbum(row.albumid)"> <i class="fa fa-eye" aria-hidden="true"></i> </button>
+				<button type="button" class="btn btn-info btn-sm text-light" ng-click="albumInfoButtonClick(row)"> <i class="fa fa-info" aria-hidden="true"></i> </button>
+			</td>
+			<td ng-show="albumColumnEnable.albumid" class="td-narrow">{{row.albumid}}</td>
+			<td ng-show="albumColumnEnable.mainartist">{{row.mainartist}}</td>
+			<td ng-show="albumColumnEnable.violin">{{row.violin}}</td>
+			<td ng-show="albumColumnEnable.mridangam">{{row.mridangam}}</td>
+			<td ng-show="albumColumnEnable.upapakkavadhyam" class="td-multi-line">{{row.upapakkavadhyam}}</td>
+			<td ng-show="albumColumnEnable.concertsabha">{{row.concertsabha}}</td>
+			<td ng-show="albumColumnEnable.sabhalocation">{{row.sabhalocation}}</td>
+			<td ng-show="albumColumnEnable.date">{{row.date}}</td>
 		</tr>
 	</tbody>
 </table>
 
+<!-- Modal -->
+<div class="modal fade" id="albumInfoModal" tabindex="-1" role="dialog" aria-labelledby="albumInfoModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Album Info</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<span ng-if="albumModalContent.albumid"><strong>Album ID: </strong>{{albumModalContent.albumid}}<br /></span>
+				<span ng-if="albumModalContent.mainartist"><strong>Main Artist: </strong>{{albumModalContent.mainartist}}<br /></span>
+				<span ng-if="albumModalContent.violin"><strong>Violin: </strong>{{albumModalContent.violin}}<br /></span>
+				<span ng-if="albumModalContent.mridangam"><strong>Mridangam: </strong>{{albumModalContent.mridangam}}<br /></span>
+				<span ng-if="albumModalContent.ghatam"><strong>ghatam: </strong>{{albumModalContent.ghatam}}<br /></span>
+				<span ng-if="albumModalContent.kanjira"><strong>Kanjira: </strong>{{albumModalContent.kanjira}}<br /></span>
+				<span ng-if="albumModalContent.morsing"><strong>Morsing: </strong>{{albumModalContent.morsing}}<br /></span>
+				<span ng-if="albumModalContent.vocalsupport"><strong>Vocal Support: </strong>{{albumModalContent.vocalsupport}}<br /></span>
+				<span ng-if="albumModalContent.otherartist"><strong>Other Artist: </strong>{{albumModalContent.otherartist}}<br /></span>
+				<span ng-if="albumModalContent.concertsabha"><strong>Sabha: </strong>{{albumModalContent.concertsabha}}<br /></span>
+				<span ng-if="albumModalContent.sabhalocation"><strong>Location: </strong>{{albumModalContent.sabhalocation}}<br /></span>
+				<span ng-if="albumModalContent.date"><strong>Date: </strong>{{albumModalContent.date}}<br /></span>
+				<span ng-if="albumModalContent.audioquality"><strong>Audio Quality: </strong>{{albumModalContent.audioquality}}<br /></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

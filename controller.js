@@ -1,5 +1,5 @@
 angular.module('myApp', [])
-.controller('appController', function($scope, $log) {
+.controller('appController', function($scope, $window, $log) {
 	var jquery = $;
 	var week = 604800000;
 	var spreadsheet_key = "1MHBp2GX_h5B9mC6GPcIt7XH2-CPz4W8FK0f2nBi9nZ4"
@@ -44,17 +44,23 @@ angular.module('myApp', [])
 	$scope.krithiSortReverse = false;
 	$scope.albumSortType = "albumid";
 	$scope.albumSortReverse = false;
-	$scope.krithiColumnEnable = {albumid: true, tracknumber: true, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false, 
-					concertsabha: false, sabhalocation: false, date: false};
-	$scope.albumColumnEnable = {};
+	$scope.krithiColumnEnableDefault = {albumid: true, tracknumber: true, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false,
+						concertsabha: false, sabhalocation: false, date: false};
+	$scope.krithiColumnEnable = {albumid: true, tracknumber: true, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false,
+						concertsabha: false, sabhalocation: false, date: false};
+	$scope.albumColumnEnableDefault = {albumid: true, mainartist: true, violin:true, mridangam: true, upapakkavadhyam: true, concertsabha: true, sabhalocation: false, date: true};
+	$scope.albumColumnEnable = {albumid: true, mainartist: true, violin:true, mridangam: true, upapakkavadhyam: true, concertsabha: true, sabhalocation: false, date: true};
+
+	$scope.krithiItemsSelected = false;
 
 
 	$scope.clearKrithiSearch = function() {
-		$scope.krithiSearch.songtitle = "";
-		$scope.krithiSearch.albumid = "";
-		$scope.krithiSearch.tracknumber = "";
-	}
-
+		for (key in $scope.krithiSearch) {
+			if ($scope.krithiSearch.hasOwnProperty(key)) {
+				$scope.krithiSearch[key] = "";
+			}
+		}
+	};
 	$scope.clearAlbumSearch = function() {
 		$scope.albumSearch.albumid = "";
 		$scope.albumSearch.mainartist = "";
@@ -66,13 +72,21 @@ angular.module('myApp', [])
 		$scope.clearKrithiSearch();
 		$scope.krithiSearch.albumid = $albumid;
 		$scope.krithiSortReverse = false;
+		$scope.krithiColumnEnable.albumid = true;
+		$scope.krithiColumnEnable.tracknumber = true;
+		$scope.showHideKrithiColumn("albumid", true);
+		$scope.showHideKrithiColumn("tracknumber", true);
 		$scope.tab = 0;
 	};
 	$scope.krithiInfoButtonClick = function($row) {
-		$scope.krithiModalContent = $row.songtitle+", "+$row.ragam;
+		$scope.krithiModalContent = $row;
 		$('#krithiInfoModal').modal()
 	};
-	$scope.showHideKrithiColumn = function($column, $showHide, $search) {
+	$scope.albumInfoButtonClick = function($row) {
+		$scope.albumModalContent = $row;
+		$('#albumInfoModal').modal()
+	};
+	$scope.showHideKrithiColumn = function($column, $showHide) { //doesn't actually do what it says haha! need to call $scope.krithiColumnEnable.$column = true/false to make it work
 		if ($showHide == false) {
 			$scope.krithiSearch[$column] = "";
 			if ($scope.krithiSortType === $column) {
@@ -80,6 +94,27 @@ angular.module('myApp', [])
 			}
 		}
 		
+	};
+	$scope.showHideAlbumColumn = function($column, $showHide) {
+		if ($showHide == false) {
+			$scope.albumSearch[$column] = "";
+			if ($scope.albumSortType === $column) {
+				$scope.albumSortType = "albumid";
+			}
+		}
+		
+	};
+	$scope.showHideKrithiDefault = function() {
+		for (key in $scope.krithiColumnEnableDefault) {
+			$scope.krithiColumnEnable[key] = $scope.krithiColumnEnableDefault[key];
+			$scope.showHideKrithiColumn(key, $scope.krithiColumnEnableDefault[key])
+		}
+	};
+	$scope.showHideAlbumDefault = function() {
+		for (key in $scope.albumColumnEnableDefault) {
+			$scope.albumColumnEnable[key] = $scope.albumColumnEnableDefault[key];
+			$scope.showHideAlbumColumn(key, $scope.albumColumnEnableDefault[key])
+		}
 	};
 	$scope.changeKrithiSort = function($newSort) {
 		if ($newSort === $scope.krithiSortType) {
@@ -90,19 +125,57 @@ angular.module('myApp', [])
 			$scope.krithiSortReverse = false;
 		}
 	};
+	$scope.changeAlbumSort = function($newSort) {
+		if ($newSort === $scope.albumSortType) {
+			$scope.albumSortReverse = !$scope.albumSortReverse;
+		}
+		else {
+			$scope.albumSortType = $newSort;
+			$scope.albumSortReverse = false;
+		}
+	};
 	$scope.krithiSelectAll = function($select) {
 		for (row in $scope.filteredKrithiData) {
 			$scope.filteredKrithiData[row].selected = $select;
 		}
 	};
+	$scope.krithiPlayAll = function() {
+		var video_ids = [];
+		for (row in $scope.filteredKrithiData) {
+			video_ids.push($scope.filteredKrithiData[row].youtubevideoid);
+		}
+		$scope.generatePlaylist(video_ids, "Carnatic Archive");
+	};
+	$scope.krithiPlaySelected = function() {
+		var video_ids = [];
+		for (row in $scope.filteredKrithiData) {
+			if ($scope.filteredKrithiData[row].selected) {
+				video_ids.push($scope.filteredKrithiData[row].youtubevideoid);
+			}
+		}
+		$scope.generatePlaylist(video_ids, "Carnatic Archive");
+	}
+	$scope.generatePlaylist = function ($video_ids, $title) {
+		var hyperlink = "https://youtube.com/watch_videos?video_ids=";
+		var video_ids_joined = $video_ids.join(',');
+		var title_joined = "&title="+$title;
+		hyperlink += video_ids_joined+title_joined;
+		$window.open(hyperlink);
+
+	};
 	$scope.$watch("filteredKrithiData", function(new_value, old_value) {
 		var all_true = true;
+		var items_selected = false;
 		for (row in new_value) {
 			if (new_value[row].selected == false) {
 				all_true = false;
 			}
+			if (new_value[row].selected) {
+				items_selected = true;
+			}
 		}
 		$scope.krithi_select_all = all_true;
+		$scope.krithiItemsSelected = items_selected;
 		
 		for (row in $scope.krithiData) {
 			if ($scope.filteredKrithiData.indexOf($scope.krithiData[row]) == -1) {
