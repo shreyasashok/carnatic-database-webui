@@ -1,2 +1,280 @@
 <h2>Playlist</h2>
-<p>This is where the playlist would eventually go.</p>
+<p class="mb-1">Show/hide columns: </p>
+
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.albumid" ng-change="showHidePlaylistColumn('albumid', playlistColumnEnable.albumid)">
+	<label class="form-check-label">Album ID</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.tracknumber" ng-change="showHidePlaylistColumn('tracknumber', playlistColumnEnable.tracknumber)">
+	<label class="form-check-label">Track #</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.type" ng-change="showHidePlaylistColumn('type', playlistColumnEnable.type)">
+	<label class="form-check-label">Type</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.ragam" ng-change="showHidePlaylistColumn('ragam', playlistColumnEnable.ragam)">
+	<label class="form-check-label">Ragam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.talam" ng-change="showHidePlaylistColumn('talam', playlistColumnEnable.talam)">
+	<label class="form-check-label">Talam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.composer" ng-change="showHidePlaylistColumn('composer', playlistColumnEnable.composer)">
+	<label class="form-check-label">Composer</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.comments" ng-change="showHidePlaylistColumn('comments', playlistColumnEnable.comments)">
+	<label class="form-check-label">Comments</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.mainartist" ng-change="showHidePlaylistColumn('mainartist', playlistColumnEnable.mainartist)">
+	<label class="form-check-label">Main Artist</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.violin" ng-change="showHidePlaylistColumn('violin', playlistColumnEnable.violin)">
+	<label class="form-check-label">Violin</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.mridangam" ng-change="showHidePlaylistColumn('mridangam', playlistColumnEnable.mridangam)">
+	<label class="form-check-label">Mridangam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.upapakkavadhyam" ng-change="showHidePlaylistColumn('upapakkavadhyam', playlistColumnEnable.upapakkavadhyam)">
+	<label class="form-check-label">Upapakkavadhyam</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.concertsabha" ng-change="showHidePlaylistColumn('concertsabha', playlistColumnEnable.concertsabha)">
+	<label class="form-check-label">Sabha</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.sabhalocation" ng-change="showHidePlaylistColumn('sabhalocation', playlistColumnEnable.sabhalocation)">
+	<label class="form-check-label">Location</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="playlistColumnEnable.date" ng-change="showHidePlaylistColumn('date', playlistColumnEnable.date)">
+	<label class="form-check-label">Date</label>
+</div>	
+
+<div class="mb-2 mt-2">
+	<button type="button" class="btn btn-primary btn-sm" ng-click="showHidePlaylistDefault()">Show default columns</button>
+	<button type="button" class="btn btn-primary btn-sm" ng-click="clearPlaylistSearch()">Clear search</button>
+	<div class="float-right">
+		<button type="button" class="btn btn-primary btn-sm" ng-click="playlistPlayAll()">Play all</button>
+		<button type="button" class="btn btn-primary btn-sm" ng-click="playlistPlaySelected()" ng-disabled="!playlistItemsSelected">Play selected</button>
+		<button type="button" class="btn btn-danger btn-sm">Remove all from playlist</button>
+		<button type="button" class="btn btn-danger btn-sm" ng-disabled="!playlistItemsSelected">Remove selected from playlist</button>
+	</div>
+</div>
+
+<div class="table-responsive">
+	<table class="table table-bordered table-hover table-sm">
+		<thead class="bg-danger text-light">
+			<tr>
+				<th class="td-playlist-controls bg-secondary">
+				</th>
+				<th class="td-select bg-secondary">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" ng-model="playlist_select_all" ng-change="playlistSelectAll(playlist_select_all)">
+					</div>
+				</th>
+				<th ng-show="playlistColumnEnable.albumid" class="td-narrow">
+					<a href class="text-light" ng-click="changePlaylistSort('albumid')">
+						Album ID
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'albumid' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'albumid' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search album IDs" ng-model="playlistSearch.albumid" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.tracknumber" class="td-super-narrow">
+					<a href class="text-light" ng-click="changePlaylistSort('tracknumber')">
+						Track #
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'tracknumber' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'tracknumber' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search track number" ng-model="playlistSearch.tracknumber" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.songtitle">
+					<a href class="text-light" ng-click="changePlaylistSort('songtitle')">
+						Title
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'songtitle' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'songtitle' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search songs" ng-model="playlistSearch.songtitle" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.type" class="td-narrow">
+					<a href class="text-light" ng-click="changePlaylistSort('type')">
+						Type
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'type' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'type' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search type" ng-model="playlistSearch.type" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.ragam">
+					<a href class="text-light" ng-click="changePlaylistSort('ragam')">
+						Ragam
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'ragam' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'ragam' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search ragam" ng-model="playlistSearch.ragam" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.talam">
+					<a href class="text-light" ng-click="changePlaylistSort('talam')">
+						Talam
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'talam' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'talam' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search talam" ng-model="playlistSearch.talam" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.composer">
+					<a href class="text-light" ng-click="changePlaylistSort('composer')">
+						Composer
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'composer' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'composer' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search composer" ng-model="playlistSearch.composer" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.comments">
+					<a href class="text-light" ng-click="changePlaylistSort('comments')">
+						Comments
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'comments' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'comments' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search comments" ng-model="playlistSearch.comments" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.mainartist">
+					<a href class="text-light" ng-click="changePlaylistSort('mainartist')">
+						Main Artist
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'mainartist' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'mainartist' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search main artists" ng-model="playlistSearch.mainartist" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.violin">
+					<a href class="text-light" ng-click="changePlaylistSort('violin')">
+						Violin
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'violin' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'violin' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search violin" ng-model="playlistSearch.violin" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.mridangam">
+					<a href class="text-light" ng-click="changePlaylistSort('mridangam')">
+						Mridangam
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'mridangam' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'mridangam' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search mridangam" ng-model="playlistSearch.mridangam" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.upapakkavadhyam">
+					<a href class="text-light" ng-click="changePlaylistSort('upapakkavadhyam')">
+						Upapakkavadhyam
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'upapakkavadhyam' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'upapakkavadhyam' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search upapakkavadhyam" ng-model="playlistSearch.upapakkavadhyam" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.concertsabha">
+					<a href class="text-light" ng-click="changePlaylistSort('concertsabha')">
+						Sabha
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'concertsabha' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'concertsabha' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search sabhas" ng-model="playlistSearch.concertsabha" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.sabhalocation" ng-show="playlistColumnEnable.sabhalocation">
+					<a href class="text-light" ng-click="changePlaylistSort('sabhalocation')">
+						Location
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'sabhalocation' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'sabhalocation' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search location" ng-model="playlistSearch.sabhalocation" /></div>
+				</th>
+				<th ng-show="playlistColumnEnable.date">
+					<a href class="text-light" ng-click="changePlaylistSort('date')">
+						Date
+						<i class="fa fa-caret-up" ng-show="playlistSortType === 'date' && playlistSortReverse"></i>
+						<i class="fa fa-caret-down" ng-show="playlistSortType === 'date' && !playlistSortReverse"></i>
+					</a>
+					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search date" ng-model="playlistSearch.date" /></div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="row in filteredPlaylistData = (playlistData | orderBy:playlistSortType:playlistSortReverse | filter:playlistSearch)">
+				<td class="td-playlist-controls">
+					<a class="btn btn-primary btn-sm text-light" ng-href="https://youtube.com/watch?v={{row.youtubevideoid}}" target="_blank"> <i class="fa fa-play" aria-hidden="true"></i> </a>
+					<button type="button" class="btn btn-info btn-sm text-light" ng-click="playlistInfoButtonClick(row)"> <i class="fa fa-info" aria-hidden="true"></i> </button>
+					<button type="button" class="btn btn-danger btn-sm text-light"> <i class="fa fa-arrow-up" aria-hidden="true"></i> </button>
+					<button type="button" class="btn btn-danger btn-sm text-light"> <i class="fa fa-arrow-down" aria-hidden="true"></i> </button>
+					<button type="button" class="btn btn-danger btn-sm text-light"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
+				</td>
+				<td class="td-select">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" ng-model="row.selected">
+					</div>
+				</td>
+				<td ng-show="playlistColumnEnable.albumid" class="td-narrow">{{row.albumid}}</td>
+				<td ng-show="playlistColumnEnable.tracknumber" class="td-super-narrow">{{row.tracknumber}}</td>
+				<td ng-show="playlistColumnEnable.songtitle">{{row.songtitle}}<span class="new-label" ng-show="row.newtrack">New!</span></td>
+				<td ng-show="playlistColumnEnable.type" class="td-narrow">{{row.type}}</td>
+				<td ng-show="playlistColumnEnable.ragam">{{row.ragam}}</td>
+				<td ng-show="playlistColumnEnable.talam">{{row.talam}}</td>
+				<td ng-show="playlistColumnEnable.composer">{{row.composer}}</td>
+				<td ng-show="playlistColumnEnable.comments">{{row.comments}}</td>
+				<td ng-show="playlistColumnEnable.mainartist">{{row.mainartist}}</td>
+				<td ng-show="playlistColumnEnable.violin">{{row.violin}}</td>
+				<td ng-show="playlistColumnEnable.mridangam">{{row.mridangam}}</td>
+				<td ng-show="playlistColumnEnable.upapakkavadhyam" class="td-multi-line">{{row.upapakkavadhyam}}</td>
+				<td ng-show="playlistColumnEnable.concertsabha">{{row.concertsabha}}</td>
+				<td ng-show="playlistColumnEnable.sabhalocation">{{row.sabhalocation}}</td>
+				<td ng-show="playlistColumnEnable.date">{{row.date}}</td>
+
+			
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="playlistInfoModal" tabindex="-1" role="dialog" aria-labelledby="playlistInfoModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Track Info</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+				<span ng-if="playlistModalContent.songtitle"><strong>Song Title: </strong>{{playlistModalContent.songtitle}}<br /></span>
+				<span ng-if="playlistModalContent.type"><strong>Type: </strong>{{playlistModalContent.type}}<br /></span>
+				<span ng-if="playlistModalContent.ragam"><strong>Ragam: </strong>{{playlistModalContent.ragam}}<br /></span>
+				<span ng-if="playlistModalContent.talam"><strong>Talam: </strong>{{playlistModalContent.talam}}<br /></span>
+				<span ng-if="playlistModalContent.composer"><strong>Composer: </strong>{{playlistModalContent.composer}}<br /></span>
+				<span ng-if="playlistModalContent.comments"><strong>Comments: </strong>{{playlistModalContent.comments}}<br /></span>
+				<br />
+				<span ng-if="playlistModalContent.albumid"><strong>Album ID: </strong>{{playlistModalContent.albumid}}<br /></span>
+				<span ng-if="playlistModalContent.tracknumber"><strong>Track Number: </strong>{{playlistModalContent.tracknumber}}<br /></span>
+				<span ng-if="playlistModalContent.mainartist"><strong>Main Artist: </strong>{{playlistModalContent.mainartist}}<br /></span>
+				<span ng-if="playlistModalContent.violin"><strong>Violin: </strong>{{playlistModalContent.violin}}<br /></span>
+				<span ng-if="playlistModalContent.mridangam"><strong>Mridangam: </strong>{{playlistModalContent.mridangam}}<br /></span>
+				<span ng-if="playlistModalContent.ghatam"><strong>ghatam: </strong>{{playlistModalContent.ghatam}}<br /></span>
+				<span ng-if="playlistModalContent.kanjira"><strong>Kanjira: </strong>{{playlistModalContent.kanjira}}<br /></span>
+				<span ng-if="playlistModalContent.morsing"><strong>Morsing: </strong>{{playlistModalContent.morsing}}<br /></span>
+				<span ng-if="playlistModalContent.vocalsupport"><strong>Vocal Support: </strong>{{playlistModalContent.vocalsupport}}<br /></span>
+				<span ng-if="playlistModalContent.otherartist"><strong>Other Artist: </strong>{{playlistModalContent.otherartist}}<br /></span>
+				<span ng-if="playlistModalContent.concertsabha"><strong>Sabha: </strong>{{playlistModalContent.concertsabha}}<br /></span>
+				<span ng-if="playlistModalContent.sabhalocation"><strong>Location: </strong>{{playlistModalContent.sabhalocation}}<br /></span>
+				<span ng-if="playlistModalContent.date"><strong>Date: </strong>{{playlistModalContent.date}}<br /></span>
+				<span ng-if="playlistModalContent.audioquality"><strong>Audio Quality: </strong>{{playlistModalContent.audioquality}}<br /></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
