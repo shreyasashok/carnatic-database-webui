@@ -31,6 +31,11 @@
 	<label class="form-check-label">Date</label>
 </div>	
 
+<div class="mb-2 mt-2">
+	<button type="button" class="btn btn-primary btn-sm" ng-click="showHideAlbumDefault()">Show default columns</button>
+	<button type="button" class="btn btn-primary btn-sm" ng-click="clearAlbumSearch()">Clear search</button>
+</div>
+
 <table class="table table-bordered table-hover table-sm">
 	<thead class="bg-success text-light">
 		<tr>
@@ -108,7 +113,7 @@
 				<button type="button" class="btn btn-primary btn-sm text-light" ng-click="accessAlbum(row.albumid)"> <i class="fa fa-eye" aria-hidden="true"></i> </button>
 				<button type="button" class="btn btn-info btn-sm text-light" ng-click="albumInfoButtonClick(row)"> <i class="fa fa-info" aria-hidden="true"></i> </button>
 			</td>
-			<td ng-show="albumColumnEnable.albumid" class="td-narrow">{{row.albumid}}</td>
+			<td ng-show="albumColumnEnable.albumid" class="td-narrow">{{row.albumid}}<span class="new-label" ng-show="row.newalbum">New!</span></td>
 			<td ng-show="albumColumnEnable.mainartist">{{row.mainartist}}</td>
 			<td ng-show="albumColumnEnable.violin">{{row.violin}}</td>
 			<td ng-show="albumColumnEnable.mridangam">{{row.mridangam}}</td>
@@ -135,7 +140,7 @@
 				<span ng-if="albumModalContent.mainartist"><strong>Main Artist: </strong>{{albumModalContent.mainartist}}<br /></span>
 				<span ng-if="albumModalContent.violin"><strong>Violin: </strong>{{albumModalContent.violin}}<br /></span>
 				<span ng-if="albumModalContent.mridangam"><strong>Mridangam: </strong>{{albumModalContent.mridangam}}<br /></span>
-				<span ng-if="albumModalContent.ghatam"><strong>ghatam: </strong>{{albumModalContent.ghatam}}<br /></span>
+				<span ng-if="albumModalContent.ghatam"><strong>Ghatam: </strong>{{albumModalContent.ghatam}}<br /></span>
 				<span ng-if="albumModalContent.kanjira"><strong>Kanjira: </strong>{{albumModalContent.kanjira}}<br /></span>
 				<span ng-if="albumModalContent.morsing"><strong>Morsing: </strong>{{albumModalContent.morsing}}<br /></span>
 				<span ng-if="albumModalContent.vocalsupport"><strong>Vocal Support: </strong>{{albumModalContent.vocalsupport}}<br /></span>

@@ -8,8 +8,16 @@ angular.module('myApp', [])
 		$scope.albumData = [];
 		for (var rawIndex in rawData) {
 			var rawRow = rawData[rawIndex];
-			var processedRow = {albumid:rawRow.gsx$albumid.$t, mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t,
-						concertsabha:rawRow.gsx$concertsabha.$t, sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, uploaddate:rawRow.gsx$uploaddate.$t};
+			var processedRow = {albumid:rawRow.gsx$albumid.$t, mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, ghatam:rawRow.gsx$ghatam.$t, 
+						kanjira:rawRow.gsx$kanjira.$t, morsing:rawRow.gsx$morsing.$t, vocalsupport:rawRow.gsx$vocalsupport.$t, otherartist:rawRow.gsx$otherartist.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t,
+						concertsabha:rawRow.gsx$concertsabha.$t, sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, uploaddate:rawRow.gsx$uploaddate.$t,
+						newalbum: false};
+			var uploadDate = new Date(processedRow.uploaddate);
+			var today = new Date();
+			var delta = today-uploadDate;
+			if (delta < week) {
+				processedRow.newalbum = true;
+			}
 			$scope.$apply( function() {
 				$scope.albumData.push(processedRow);
 			});
@@ -22,8 +30,10 @@ angular.module('myApp', [])
 			var rawRow = rawData[rawIndex];
 			var processedRow = {songtitle:rawRow.gsx$songtitle.$t, albumid:rawRow.gsx$albumid.$t, tracknumber:rawRow.gsx$tracknumber.$t, type:rawRow.gsx$type.$t, ragam:rawRow.gsx$ragam.$t, talam:rawRow.gsx$talam.$t, 
 						composer:rawRow.gsx$composer.$t, alapana:rawRow.gsx$a.$t, niraval:rawRow.gsx$n.$t, swaram:rawRow.gsx$s.$t, comments:rawRow.gsx$comments.$t, youtubevideoid:rawRow.gsx$youtubevideoid.$t, 
-						mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t, concertsabha:rawRow.gsx$concertsabha.$t,
-						sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, uploaddate:rawRow.gsx$uploaddate.$t, newtrack: false, selected: false};
+						mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, ghatam:rawRow.gsx$ghatam.$t, kanjira:rawRow.gsx$kanjira.$t, 
+						morsing:rawRow.gsx$morsing.$t, vocalsupport:rawRow.gsx$vocalsupport.$t, otherartist:rawRow.gsx$otherartist.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t, 
+						concertsabha:rawRow.gsx$concertsabha.$t, sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, 
+						uploaddate:rawRow.gsx$uploaddate.$t, newtrack: false, selected: false};
 			var uploadDate = new Date(processedRow.uploaddate);
 			var today = new Date();
 			var delta = today-uploadDate;
@@ -62,10 +72,11 @@ angular.module('myApp', [])
 		}
 	};
 	$scope.clearAlbumSearch = function() {
-		$scope.albumSearch.albumid = "";
-		$scope.albumSearch.mainartist = "";
-		$scope.albumSearch.violinist = "";
-		$scope.albumSearch.mridangist = "";
+		for (key in $scope.albumSearch) {
+			if ($scope.albumSearch.hasOwnProperty(key)) {
+				$scope.albumSearch[key] = "";
+			}
+		}
 	}
 	$scope.accessAlbum = function($albumid) {
 		$scope.krithiSortType = "tracknumber";
