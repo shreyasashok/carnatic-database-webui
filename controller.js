@@ -8,7 +8,7 @@ angular.module('myApp', [])
 		$scope.albumData = [];
 		for (var rawIndex in rawData) {
 			var rawRow = rawData[rawIndex];
-			var processedRow = {albumid:rawRow.gsx$albumid.$t, mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, ghatam:rawRow.gsx$ghatam.$t, 
+			var processedRow = {albumid:parseInt(rawRow.gsx$albumid.$t), mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, ghatam:rawRow.gsx$ghatam.$t, 
 						kanjira:rawRow.gsx$kanjira.$t, morsing:rawRow.gsx$morsing.$t, vocalsupport:rawRow.gsx$vocalsupport.$t, otherartist:rawRow.gsx$otherartist.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t,
 						concertsabha:rawRow.gsx$concertsabha.$t, sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, uploaddate:rawRow.gsx$uploaddate.$t,
 						newalbum: false};
@@ -28,8 +28,9 @@ angular.module('myApp', [])
 		$scope.krithiData = [];
 		for (var rawIndex in rawData) {
 			var rawRow = rawData[rawIndex];
-			var processedRow = {songtitle:rawRow.gsx$songtitle.$t, albumid:rawRow.gsx$albumid.$t, tracknumber:rawRow.gsx$tracknumber.$t, type:rawRow.gsx$type.$t, ragam:rawRow.gsx$ragam.$t, talam:rawRow.gsx$talam.$t, 
-						composer:rawRow.gsx$composer.$t, alapana:rawRow.gsx$a.$t, niraval:rawRow.gsx$n.$t, swaram:rawRow.gsx$s.$t, comments:rawRow.gsx$comments.$t, youtubevideoid:rawRow.gsx$youtubevideoid.$t, 
+			var processedRow = {songtitle:rawRow.gsx$songtitle.$t, albumid:parseInt(rawRow.gsx$albumid.$t), tracknumber:parseInt(rawRow.gsx$tracknumber.$t), type:rawRow.gsx$type.$t, ragam:rawRow.gsx$ragam.$t, 
+						talam:rawRow.gsx$talam.$t, composer:rawRow.gsx$composer.$t, alapana:rawRow.gsx$a.$t, niraval:rawRow.gsx$n.$t, swaram:rawRow.gsx$s.$t, 
+						comments:rawRow.gsx$comments.$t, youtubevideoid:rawRow.gsx$youtubevideoid.$t, 
 						mainartist:rawRow.gsx$mainartist.$t, violin:rawRow.gsx$violin.$t, mridangam:rawRow.gsx$mridangam.$t, ghatam:rawRow.gsx$ghatam.$t, kanjira:rawRow.gsx$kanjira.$t, 
 						morsing:rawRow.gsx$morsing.$t, vocalsupport:rawRow.gsx$vocalsupport.$t, otherartist:rawRow.gsx$otherartist.$t, upapakkavadhyam:rawRow.gsx$upapakkavadhyam.$t, 
 						concertsabha:rawRow.gsx$concertsabha.$t, sabhalocation:rawRow.gsx$sabhalocation.$t, date:rawRow.gsx$date.$t, audioquality:rawRow.gsx$audioquality.$t, 
@@ -94,8 +95,14 @@ angular.module('myApp', [])
 		$scope.krithiSortReverse = false;
 		$scope.krithiColumnEnable.albumid = true;
 		$scope.krithiColumnEnable.tracknumber = true;
+		$scope.krithiColumnEnable.mainartist = false;
+		$scope.krithiColumnEnable.violin = false;
+		$scope.krithiColumnEnable.mridangam = false;
 		$scope.showHideKrithiColumn("albumid", true);
 		$scope.showHideKrithiColumn("tracknumber", true);
+		$scope.showHideKrithiColumn("mainartist", true);
+		$scope.showHideKrithiColumn("violin", false);
+		$scope.showHideKrithiColumn("mridangam", false);
 		$scope.tab = 0;
 	};
 	$scope.krithiInfoButtonClick = function($row) {
