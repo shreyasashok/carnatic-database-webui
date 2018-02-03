@@ -181,7 +181,7 @@
 				<td ng-show="playlistColumnEnable.date">{{row.date}}</td>
 			</tr>
 			<tr>
-				<td class="text-center" colspan=20 ng-show="playlistData.length == 0">Playlist currently empty. </td>
+				<td class="text-center" colspan=20 ng-show="playlistData.length == 0">Playlist currently empty. Add songs from the track list page!</td>
 			</tr>
 		</tbody>
 	</table>
@@ -204,6 +204,9 @@
 				<span ng-if="playlistModalContent.ragam"><strong>Ragam: </strong>{{playlistModalContent.ragam}}<br /></span>
 				<span ng-if="playlistModalContent.talam"><strong>Talam: </strong>{{playlistModalContent.talam}}<br /></span>
 				<span ng-if="playlistModalContent.composer"><strong>Composer: </strong>{{playlistModalContent.composer}}<br /></span>
+				<span ng-if="playlistModalContent.alapana"><strong>Alapana: </strong>{{playlistModalContent.alapana}}<br /></span>
+				<span ng-if="playlistModalContent.niraval"><strong>Niraval: </strong>{{playlistModalContent.niraval}}<br /></span>
+				<span ng-if="playlistModalContent.swaram"><strong>Swaram: </strong>{{playlistModalContent.swaram}}<br /></span>
 				<span ng-if="playlistModalContent.comments"><strong>Comments: </strong>{{playlistModalContent.comments}}<br /></span>
 				<br />
 				<span ng-if="playlistModalContent.albumid"><strong>Album ID: </strong>{{playlistModalContent.albumid}}<br /></span>
