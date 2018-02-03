@@ -29,17 +29,19 @@
 					<li class="nav-item" ng-class="{ active: tab === 2 }">
 						<a class="nav-link" href ng-click="tab = 2">Playlist</a>
 					</li>
+					<li class="nav-item" ng-class="{ active: tab === 3 }">
+						<a class="nav-link" href ng-click="tab = 3">About</a>
+					</li>
 				</ul>
 			</div>
 		</nav>	
 		
 
 		<div class="container-fluid">
-
 			<div track-list ng-show="tab === 0"></div>
 			<div albums ng-show="tab === 1"></div>
 			<div playlist ng-show="tab === 2"></div>
-			
+			<div about ng-show="tab === 3"></div>
 		</div> 
 
 	</body>

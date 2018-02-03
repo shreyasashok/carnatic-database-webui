@@ -342,4 +342,9 @@ angular.module('myApp', [])
 	return {
 		templateUrl: "playlistTemplate.html"
 	};
+})
+.directive("about", function() {
+	return {
+		templateUrl: "aboutTemplate.html"
+	};
 });
