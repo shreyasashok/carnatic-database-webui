@@ -28,6 +28,18 @@
 	<label class="form-check-label">Composer</label>
 </div>
 <div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.alapana" ng-change="showHideKrithiColumn('alapana', krithiColumnEnable.niraval)">
+	<label class="form-check-label">A</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.niraval" ng-change="showHideKrithiColumn('niraval', krithiColumnEnable.niraval)">
+	<label class="form-check-label">N</label>
+</div>
+<div class="form-check form-check-inline">
+	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.swaram" ng-change="showHideKrithiColumn('swaram', krithiColumnEnable.swaram)">
+	<label class="form-check-label">S</label>
+</div>
+<div class="form-check form-check-inline">
 	<input class="form-check-input" type="checkbox" ng-model="krithiColumnEnable.comments" ng-change="showHideKrithiColumn('comments', krithiColumnEnable.comments)">
 	<label class="form-check-label">Comments</label>
 </div>
@@ -66,8 +78,8 @@
 	<div class="float-right">
 		<button type="button" class="btn btn-primary btn-sm" ng-click="krithiPlayAll()">Play all</button>
 		<button type="button" class="btn btn-primary btn-sm" ng-click="krithiPlaySelected()" ng-disabled="!krithiItemsSelected">Play selected</button>
-		<button type="button" class="btn btn-danger btn-sm">Add all to playlist</button>
-		<button type="button" class="btn btn-danger btn-sm" ng-disabled="!krithiItemsSelected">Add selected to playlist</button>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="krithiAddAllToPlaylist()">Add all to playlist</button>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="krithiAddSelectedToPlaylist()" ng-disabled="!krithiItemsSelected">Add selected to playlist</button>
 	</div>
 </div>
 
@@ -137,6 +149,36 @@
 						<i class="fa fa-caret-down" ng-show="krithiSortType === 'composer' && !krithiSortReverse"></i>
 					</a>
 					<div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Search composer" ng-model="krithiSearch.composer" /></div>
+				</th>
+				<th ng-show="krithiColumnEnable.alapana" class="td-manodharmam">
+					<a href class="text-light" ng-click="changeKrithiSort('alapana')">
+						A
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'alapana' && !krithiSortReverse"></i> <!-- backwards from rest of document on purpose -->
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'alapana' && krithiSortReverse"></i>
+					</a>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" ng-true-value="'y'" ng-false-value="''" ng-model="krithiSearch.alapana">
+					</div>
+				</th>
+				<th ng-show="krithiColumnEnable.niraval" class="td-manodharmam">
+					<a href class="text-light" ng-click="changeKrithiSort('niraval')">
+						N
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'niraval' && !krithiSortReverse"></i> <!-- backwards on purpose -->
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'niraval' && krithiSortReverse"></i>
+					</a>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" ng-true-value="'y'" ng-false-value="''" ng-model="krithiSearch.niraval">
+					</div>
+				</th>
+				<th ng-show="krithiColumnEnable.swaram" class="td-manodharmam">
+					<a href class="text-light" ng-click="changeKrithiSort('swaram')">
+						S
+						<i class="fa fa-caret-up" ng-show="krithiSortType === 'swaram' && !krithiSortReverse"></i> <!-- backwards on purpose -->
+						<i class="fa fa-caret-down" ng-show="krithiSortType === 'swaram' && krithiSortReverse"></i>
+					</a>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" ng-true-value="'y'" ng-false-value="''" ng-model="krithiSearch.swaram">
+					</div>
 				</th>
 				<th ng-show="krithiColumnEnable.comments">
 					<a href class="text-light" ng-click="changeKrithiSort('comments')">
@@ -209,7 +251,7 @@
 				<td class="td-krithi-controls">
 					<a class="btn btn-primary btn-sm text-light" ng-href="https://youtube.com/watch?v={{row.youtubevideoid}}" target="_blank"> <i class="fa fa-play" aria-hidden="true"></i> </a>
 					<button type="button" class="btn btn-info btn-sm text-light" ng-click="krithiInfoButtonClick(row)"> <i class="fa fa-info" aria-hidden="true"></i> </button>
-					<button type="button" class="btn btn-danger btn-sm text-light"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
+					<button type="button" class="btn btn-danger btn-sm text-light" ng-click="playlistAddRow(row)"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
 				</td>
 				<td class="td-select">
 					<div class="form-check">
@@ -223,6 +265,9 @@
 				<td ng-show="krithiColumnEnable.ragam">{{row.ragam}}</td>
 				<td ng-show="krithiColumnEnable.talam">{{row.talam}}</td>
 				<td ng-show="krithiColumnEnable.composer">{{row.composer}}</td>
+				<td ng-show="krithiColumnEnable.alapana"> <i class="fa fa-check" ng-show="row.alapana == 'y'"></i> </td>
+				<td ng-show="krithiColumnEnable.niraval"> <i class="fa fa-check" ng-show="row.niraval == 'y'"></i> </td>
+				<td ng-show="krithiColumnEnable.swaram"> <i class="fa fa-check" ng-show="row.swaram == 'y'"></i> </td>
 				<td ng-show="krithiColumnEnable.comments">{{row.comments}}</td>
 				<td ng-show="krithiColumnEnable.mainartist">{{row.mainartist}}</td>
 				<td ng-show="krithiColumnEnable.violin">{{row.violin}}</td>

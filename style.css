@@ -7,13 +7,23 @@
 .td-super-narrow {
 	max-width: 95px;
 }
+.td-manodharmam {
+	min-width: 40px;
+	width: 40px;
+}
+th.td-manodharmam { 
+	vertical-align: top !important;
+}
 .td-krithi-controls {
 	min-width: 105px;
+	width: 105px;
 }
 .td-album-controls {
 	min-width: 50px;
+	width: 50px;
 }
 .td-playlist-controls {
+	width: 175px;
 	min-width: 175px;
 }
 .td-select {
@@ -21,7 +31,7 @@
 	padding-right: 0px !important;
 }
 th.td-select {
-	vertical-align: middle !important;
+	vertical-align: top !important;
 }
 .new-label {
 	font-size: smaller;

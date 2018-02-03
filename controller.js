@@ -26,7 +26,6 @@ angular.module('myApp', [])
 	$.getJSON("https://spreadsheets.google.com/feeds/list/"+spreadsheet_key+"/1/public/values?alt=json", function(data) {
 		var rawData = data.feed.entry;
 		$scope.krithiData = [];
-		$scope.playlistData = [];
 		for (var rawIndex in rawData) {
 			var rawRow = rawData[rawIndex];
 			var processedRow = {songtitle:rawRow.gsx$songtitle.$t, albumid:rawRow.gsx$albumid.$t, tracknumber:rawRow.gsx$tracknumber.$t, type:rawRow.gsx$type.$t, ragam:rawRow.gsx$ragam.$t, talam:rawRow.gsx$talam.$t, 
@@ -43,36 +42,36 @@ angular.module('myApp', [])
 			}
 			$scope.$apply( function() {
 				$scope.krithiData.push(processedRow);
-				$scope.playlistData.push(processedRow);
 			});
 		}
 	});
 
 	$scope.tab = 0;
 
+	$scope.playlistData = [];
 	$scope.krithiSearch = {};
 	$scope.albumSearch = {};
-	$scope.playlistSearch = {};
 	$scope.krithiSortType = "songtitle";
 	$scope.krithiSortReverse = false;
 	$scope.albumSortType = "albumid";
 	$scope.albumSortReverse = false;
-	$scope.playlistSortType = "songtitle";
-	$scope.playlistSortReverse = false;
-	$scope.krithiColumnEnableDefault = {albumid: true, tracknumber: true, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false,
-						concertsabha: false, sabhalocation: false, date: false};
-	$scope.krithiColumnEnable = {albumid: true, tracknumber: true, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false,
-						concertsabha: false, sabhalocation: false, date: false};
-	$scope.playlistColumnEnableDefault = {albumid: false, tracknumber: false, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, 
-						upapakkavadhyam: false,	concertsabha: false, sabhalocation: false, date: false};
-	$scope.playlistColumnEnable = {albumid: false, tracknumber: false, songtitle: true, type: false, ragam: true, talam: true, composer: true, comments: false, mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false,
-						concertsabha: false, sabhalocation: false, date: false};
+	$scope.krithiColumnEnableDefault = {albumid: false, tracknumber: false, songtitle: true, type: false, ragam: true, talam: true, composer: true, alapana: true, niraval: true, swaram: true, comments: false, 
+						mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false, concertsabha: false, sabhalocation: false, date: false};
+	$scope.krithiColumnEnable = {albumid: false, tracknumber: false, songtitle: true, type: false, ragam: true, talam: true, composer: true, alapana: true, niraval: true, swaram: true, comments: false, 
+						mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false, concertsabha: false, sabhalocation: false, date: false};
+	$scope.playlistColumnEnableDefault = {albumid: false, tracknumber: false, songtitle: true, type: false, ragam: true, talam: true, composer: true, alapana: true, niraval: true, swaram: true, comments: false, 
+						mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false, concertsabha: false, sabhalocation: false, date: false};
+	$scope.playlistColumnEnable = {albumid: false, tracknumber: false, songtitle: true, type: false, ragam: true, talam: true, composer: true, alapana: true, niraval: true, swaram: true, comments: false, 
+						mainartist:true, violin:true, mridangam: true, upapakkavadhyam: false, concertsabha: false, sabhalocation: false, date: false};
 	$scope.albumColumnEnableDefault = {albumid: true, mainartist: true, violin:true, mridangam: true, upapakkavadhyam: true, concertsabha: true, sabhalocation: false, date: true};
 	$scope.albumColumnEnable = {albumid: true, mainartist: true, violin:true, mridangam: true, upapakkavadhyam: true, concertsabha: true, sabhalocation: false, date: true};
 
 	$scope.krithiItemsSelected = false;
 	$scope.playlistItemsSelected = false;
 
+	$scope.logFunction = function($log_info) {
+		$log.log($log_info);
+	};
 
 	$scope.clearKrithiSearch = function() {
 		for (key in $scope.krithiSearch) {
@@ -85,13 +84,6 @@ angular.module('myApp', [])
 		for (key in $scope.albumSearch) {
 			if ($scope.albumSearch.hasOwnProperty(key)) {
 				$scope.albumSearch[key] = "";
-			}
-		}
-	};
-	$scope.clearPlaylistSearch = function() {
-		for (key in $scope.playlistSearch) {
-			if ($scope.playlistSearch.hasOwnProperty(key)) {
-				$scope.playlistSearch[key] = "";
 			}
 		}
 	};
@@ -137,13 +129,7 @@ angular.module('myApp', [])
 		
 	};
 	$scope.showHidePlaylistColumn = function($column, $showHide) { //doesn't actually do what it says haha! need to call $scope.krithiColumnEnable.$column = true/false to make it work
-		if ($showHide == false) {
-			$scope.playlistSearch[$column] = "";
-			if ($scope.playlistSortType === $column) {
-				$scope.playlistSortType = "songtitle";
-			}
-		}
-		
+		// intentionally empty	
 	};
 	$scope.showHideKrithiDefault = function() {
 		for (key in $scope.krithiColumnEnableDefault) {
@@ -169,7 +155,12 @@ angular.module('myApp', [])
 		}
 		else {
 			$scope.krithiSortType = $newSort;
-			$scope.krithiSortReverse = false;
+			if ($newSort == "alapana" || $newSort == "niraval" || $newSort == "swaram") {
+				$scope.krithiSortReverse = true;
+			}
+			else {
+				$scope.krithiSortReverse = false;
+			}
 		}
 	};
 	$scope.changeAlbumSort = function($newSort) {
@@ -181,23 +172,14 @@ angular.module('myApp', [])
 			$scope.albumSortReverse = false;
 		}
 	};
-	$scope.changePlaylistSort = function($newSort) {
-		if ($newSort === $scope.playlistSortType) {
-			$scope.playlistSortReverse = !$scope.playlistSortReverse;
-		}
-		else {
-			$scope.playlistSortType = $newSort;
-			$scope.playlistSortReverse = false;
-		}
-	};
 	$scope.krithiSelectAll = function($select) {
 		for (row in $scope.filteredKrithiData) {
 			$scope.filteredKrithiData[row].selected = $select;
 		}
 	};
 	$scope.playlistSelectAll = function($select) {
-		for (row in $scope.filteredPlaylistData) {
-			$scope.filteredPlaylistData[row].selected = $select;
+		for (row in $scope.playlistData) {
+			$scope.playlistData[row].selected = $select;
 		}
 	};
 	$scope.krithiPlayAll = function() {
@@ -209,8 +191,8 @@ angular.module('myApp', [])
 	};
 	$scope.playlistPlayAll = function() {
 		var video_ids = [];
-		for (row in $scope.filteredPlaylistData) {
-			video_ids.push($scope.filteredPlaylistData[row].youtubevideoid);
+		for (row in $scope.playlistData) {
+			video_ids.push($scope.playlistData[row].youtubevideoid);
 		}
 		$scope.generatePlaylist(video_ids, "Carnatic Archive");
 	};
@@ -222,16 +204,86 @@ angular.module('myApp', [])
 			}
 		}
 		$scope.generatePlaylist(video_ids, "Carnatic Archive");
-	}
+	};
 	$scope.playlistPlaySelected = function() {
 		var video_ids = [];
-		for (row in $scope.filteredPlaylistData) {
-			if ($scope.filteredPlaylistData[row].selected) {
-				video_ids.push($scope.filteredPlaylistData[row].youtubevideoid);
+		for (row in $scope.playlistData) {
+			if ($scope.playlistData[row].selected) {
+				video_ids.push($scope.playlistData[row].youtubevideoid);
 			}
 		}
 		$scope.generatePlaylist(video_ids, "Carnatic Archive");
-	}
+	};
+	$scope.playlistAddRow = function($row) {
+		$log.log($row);
+		var newRow = angular.copy($row);
+		$log.log(newRow);
+		$log.log(newRow === $row);
+		$log.log(newRow == $row);
+		$scope.playlistData.push(newRow);
+	};
+	$scope.playlistAddRows = function($rows) {
+		for (row in $rows) {
+			$scope.playlistAddRow($rows[row]);
+		}
+	};
+	$scope.krithiAddAllToPlaylist = function() {
+		$scope.playlistAddRows($scope.filteredKrithiData);
+	};
+	$scope.krithiAddSelectedToPlaylist = function() {
+		var rows = [];
+		for (row in $scope.filteredKrithiData) {
+			if ($scope.filteredKrithiData[row].selected) {
+				rows.push($scope.filteredKrithiData[row]);
+			}
+		}
+		$scope.playlistAddRows(rows);
+	};
+	$scope.playlistDeleteAll = function() {
+		$scope.playlistDeleteRows($scope.playlistData);
+	};
+	$scope.playlistDeleteSelected = function() {
+		var rows = [];
+		for (row in $scope.playlistData) {
+			if ($scope.playlistData[row].selected) {
+				rows.push($scope.playlistData[row]);
+			}
+		}
+		$log.log(rows);
+		$scope.playlistDeleteRows(rows);
+	};
+	$scope.playlistMoveRow = function($row, $move_amount) {
+		var currentIndex = $scope.playlistData.indexOf($row);
+		var newIndex = currentIndex + $move_amount;
+		if (newIndex < 0 || newIndex == $scope.playlistData.length) { //account for beginning and end of list
+			return;
+		}
+		$log.log($scope.playlistData);
+		$scope.playlistData[currentIndex] = $scope.playlistData.splice(newIndex, 1, $scope.playlistData[currentIndex])[0];
+		$log.log($scope.playlistData);
+	};
+	$scope.playlistDeleteRow = function($rowIndex) {
+		if ($rowIndex > -1) {
+			$log.log($rowIndex);
+			$scope.playlistData.splice($rowIndex, 1);
+		}
+	};
+	$scope.playlistDeleteRows = function($rows) {
+		var length = $rows.length;
+		var indices = [];
+		for (row = 0; row < length; row++) {
+			$log.log($rows[row]);
+			var index = $scope.playlistData.indexOf($rows[row]);
+			indices.push(index);
+		}
+		indices.sort(function(a, b){return b - a});
+		$log.log("Indices");
+		$log.log(indices);
+		$log.log("Indices 0th index: "+indices[0]);
+		for (currentIndex in indices) {
+			$scope.playlistDeleteRow(indices[currentIndex]);
+		}
+	};
 	$scope.generatePlaylist = function ($video_ids, $title) {
 		var hyperlink = "https://youtube.com/watch_videos?video_ids=";
 		var video_ids_joined = $video_ids.join(',');
@@ -260,7 +312,7 @@ angular.module('myApp', [])
 			}
 		}
 	}, true);
-	$scope.$watch("filteredPlaylistData", function(new_value, old_value) {
+	$scope.$watch("playlistData", function(new_value, old_value) {
 		var all_true = true;
 		var items_selected = false;
 		for (row in new_value) {
@@ -273,12 +325,6 @@ angular.module('myApp', [])
 		}
 		$scope.playlist_select_all = all_true;
 		$scope.playlistItemsSelected = items_selected;
-		
-		for (row in $scope.playlistData) {
-			if ($scope.filteredPlaylistData.indexOf($scope.playlistData[row]) == -1) {
-				$scope.playlistData[row].selected = false;
-			}
-		}
 	}, true);
 
 })
