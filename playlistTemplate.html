@@ -73,8 +73,8 @@
 <div class="mb-2 mt-2">
 	<button type="button" class="btn btn-primary btn-sm" ng-click="showHidePlaylistDefault()">Show default columns</button>
 	<div class="float-right">
-		<button type="button" class="btn btn-primary btn-sm" ng-click="playlistPlayAll()">Play all</button>
-		<button type="button" class="btn btn-primary btn-sm" ng-click="playlistPlaySelected()" ng-disabled="!playlistItemsSelected">Play selected</button>
+		<button type="button" class="btn btn-primary btn-sm" ng-click="playlistPlayAll()" data-toggle="tooltip" data-placement="bottom" title="Max 50 videos" onmouseenter="$(this).tooltip('show')" ng-disabled="playlistData.length == 0">Play all</button>
+		<button type="button" class="btn btn-primary btn-sm" ng-click="playlistPlaySelected()" ng-disabled="!playlistItemsSelected" data-toggle="tooltip" data-placement="bottom" title="Max 50 videos" onmouseenter="$(this).tooltip('show')">Play selected</button>
 		<button type="button" class="btn btn-danger btn-sm" ng-click="playlistDeleteAll()">Remove all from playlist</button>
 		<button type="button" class="btn btn-danger btn-sm" ng-click="playlistDeleteSelected()" ng-disabled="!playlistItemsSelected">Remove selected from playlist</button>
 	</div>

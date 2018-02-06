@@ -76,8 +76,8 @@
 	<button type="button" class="btn btn-primary btn-sm" ng-click="showHideKrithiDefault()">Show default columns</button>
 	<button type="button" class="btn btn-primary btn-sm" ng-click="clearKrithiSearch()">Clear search</button>
 	<div class="float-right">
-		<button type="button" class="btn btn-primary btn-sm" ng-click="krithiPlayAll()">Play all</button>
-		<button type="button" class="btn btn-primary btn-sm" ng-click="krithiPlaySelected()" ng-disabled="!krithiItemsSelected">Play selected</button>
+		<button type="button" class="btn btn-primary btn-sm" ng-click="krithiPlayAll()" data-toggle="tooltip" data-placement="bottom" title="Max 50 videos" onmouseenter="$(this).tooltip('show')">Play all</button>
+		<button type="button" class="btn btn-primary btn-sm" ng-click="krithiPlaySelected()" ng-disabled="!krithiItemsSelected" data-toggle="tooltip" data-placement="bottom" title="Max 50 videos" onmouseenter="$(this).tooltip('show')">Play selected</button>
 		<button type="button" class="btn btn-danger btn-sm" ng-click="krithiAddAllToPlaylist()">Add all to playlist</button>
 		<button type="button" class="btn btn-danger btn-sm" ng-click="krithiAddSelectedToPlaylist()" ng-disabled="!krithiItemsSelected">Add selected to playlist</button>
 	</div>
