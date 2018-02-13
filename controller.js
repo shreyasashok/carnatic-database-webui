@@ -3,6 +3,7 @@ angular.module('myApp', [])
 	var jquery = $;
 	var week = 604800000;
 	var spreadsheet_key = "1MHBp2GX_h5B9mC6GPcIt7XH2-CPz4W8FK0f2nBi9nZ4"
+	$scope.data_loaded = false;
 	$.getJSON("https://spreadsheets.google.com/feeds/list/"+spreadsheet_key+"/2/public/values?alt=json", function(data) {
 		var rawData = data.feed.entry;
 		$scope.albumData = [];
@@ -45,6 +46,9 @@ angular.module('myApp', [])
 				$scope.krithiData.push(processedRow);
 			});
 		}
+		$scope.$apply( function() {
+			$scope.data_loaded = true;
+		});
 	});
 
 	$scope.tab = 0;
