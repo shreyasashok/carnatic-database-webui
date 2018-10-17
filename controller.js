@@ -338,6 +338,11 @@ angular.module('myApp', [])
 		$scope.playlistItemsSelected = items_selected;
 	}, true);
 
+	$scope.exactFilterIfNotBlank = function(field1, field2) {
+		if(field2 === "" || field2 === null) return true;
+		return field1 == field2;
+	};
+
 })
 .directive("trackList", function() {
 	return {
@@ -359,3 +364,4 @@ angular.module('myApp', [])
 		templateUrl: "aboutTemplate.html"
 	};
 });
+

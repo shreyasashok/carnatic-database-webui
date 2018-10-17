@@ -247,7 +247,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="row in filteredKrithiData = (krithiData | orderBy:krithiSortType:krithiSortReverse | filter:krithiSearch)">
+			<tr ng-repeat="row in filteredKrithiData = (krithiData | orderBy:krithiSortType:krithiSortReverse | filter:{'tracknumber': krithiSearch.tracknumber}:exactFilterIfNotBlank | filter:{'albumid': krithiSearch.albumid}:exactFilterIfNotBlank | filter:krithiSearch)">
 				<td class="td-krithi-controls">
 					<a class="btn btn-primary btn-sm text-light" ng-href="https://youtube.com/watch?v={{row.youtubevideoid}}" target="_blank"> <i class="fa fa-play" aria-hidden="true"></i> </a>
 					<button type="button" class="btn btn-info btn-sm text-light" ng-click="krithiInfoButtonClick(row)"> <i class="fa fa-info" aria-hidden="true"></i> </button>
